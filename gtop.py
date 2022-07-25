@@ -4,10 +4,14 @@ import requests
 
 all_info = {}
 sorted_info = {}
+zeros = ""
+
+with open("Нули.txt", mode="w", encoding="utf-8") as file:
+    file.write("")
+    
 print("Подождите, в последнее время API Mojang долго переводит uuid в ники...\n")
-data = requests.get("https://api.hypixel.net/guild?key=<<API КЛЮЧ>>&name=<<ИМЯ ГИЛЬДИИ>>").json()["guild"]["members"]
 
-
+data = requests.get("https://api.hypixel.net/guild?key=<<HYPIXEL API КЛЮЧ>>&name=<<ИМЯ ГИЛЬДИИ>>").json()["guild"]["members"]
 for n, member in enumerate(data):
     try:
         name = requests.get(f"https://api.mojang.com/user/profiles/{member['uuid']}/names").json()[-1]["name"]
@@ -21,15 +25,16 @@ for n, member in enumerate(data):
     for date in member["expHistory"]:
         all_xp += member["expHistory"][date]
     all_info[name] = all_xp
-    
+    if all_xp == 0:
+        zeros += f"{name}\n"
+    with open("Нули.txt", mode="r+", encoding="utf-8") as file:
+        file.write(zeros)
 
 sorted_keys = sorted(all_info, key=all_info.get)
 for w in reversed(sorted_keys):
     sorted_info[w] = all_info[w]
 
-    
 for n, key in enumerate(sorted_info.keys()):
     print(f"{n + 1}) {key}: {sorted_info[key]}")
 
-    
 water = input("\nНажмите Enter для завершения")
