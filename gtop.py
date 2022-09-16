@@ -14,11 +14,11 @@ print("Подождите, в последнее время API Mojang долг�
 data = requests.get("https://api.hypixel.net/guild?key=<<HYPIXEL API КЛЮЧ>>&name=<<ИМЯ ГИЛЬДИИ>>").json()["guild"]["members"]
 for n, member in enumerate(data):
     try:
-        name = requests.get(f"https://api.mojang.com/user/profiles/{member['uuid']}/names").json()[-1]["name"]
+        name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['name']}").json()["name"]
     except:
         try:
             sleep(3)
-            name = requests.get(f"https://api.mojang.com/user/profiles/{member['uuid']}/names").json()[-1]["name"]
+            name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['name']}").json()["name"]
         except:
             name = "Ошибка перевода uuid " + str(member['uuid'])
     all_xp = 0
