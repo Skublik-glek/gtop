@@ -11,14 +11,14 @@ with open("Нули.txt", mode="w", encoding="utf-8") as file:
     
 print("Подождите, в последнее время API Mojang долго переводит uuid в ники...\n")
 
-data = requests.get("https://api.hypixel.net/guild?key=<<HYPIXEL API КЛЮЧ>>&name=<<ИМЯ ГИЛЬДИИ>>").json()["guild"]["members"]
+data = requests.get("https://api.hypixel.net/guild?key=61d0a63e-8cdc-4d27-b436-61277b0e59d0&name=FushkaArmy").json()["guild"]["members"]
 for n, member in enumerate(data):
     try:
-        name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['name']}").json()["name"]
+        name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['uuid']}").json()["name"]
     except:
         try:
             sleep(3)
-            name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['name']}").json()["name"]
+            name = requests.get(f"https://sessionserver.mojang.com/session/minecraft/profile/{member['uuid']}").json()["name"]
         except:
             name = "Ошибка перевода uuid " + str(member['uuid'])
     all_xp = 0
